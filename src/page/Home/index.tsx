@@ -1,4 +1,11 @@
-import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
+import {
+  Field,
+  Form,
+  Formik,
+  FormikErrors,
+  FormikHelpers,
+  FormikValues,
+} from 'formik';
 import styles from './style.module.css';
 
 interface IFields {
@@ -20,19 +27,35 @@ export const Home: React.FC = () => {
       errors.nome = 'Nome é obrigatório';
     }
 
-    if (values.email.length < 2) {
+    if (!values.email.length) {
       errors.email = 'email inválido';
     }
     return errors;
   };
 
-  const handleSubmit = (
-    values: IFields,
-    formikHelpers: FormikHelpers<IFields>,
-  ) => {
+  const handleSubmit = (values: IFields, actions: FormikHelpers<IFields>) => {
     alert(JSON.stringify(values));
-    //  console.log(formikHelpers);
   };
+
+  interface IErrors {
+    errors: {
+      nome: string;
+      email: string;
+    };
+  }
+
+  const Formulario = (props: IErrors) => (
+    <div className={styles.form}>
+      <Form>
+        <Field name="nome" />
+        {props.errors.nome ? <span>{props.errors.nome}</span> : ''}
+        <Field name="email" />
+        {props.errors.email ? <span>{props.errors.email}</span> : ''}
+        <br />
+        <button type="submit">Submit</button>
+      </Form>
+    </div>
+  );
 
   return (
     <div className={styles.container}>
@@ -40,20 +63,11 @@ export const Home: React.FC = () => {
         initialValues={initialValues}
         onSubmit={handleSubmit}
         validate={validate}
-      >
-        {({ errors }) => (
-          <div className={styles.form}>
-            <Form>
-              <Field name="nome" />
-              {errors.nome ? <span>{errors.nome}</span> : ''}
-              <Field name="email" />
-              {errors.email ? <span>{errors.email}</span> : ''}
-              <br />
-              <button type="submit">Submit</button>
-            </Form>
-          </div>
-        )}
-      </Formik>
+        /*         validateOnBlur={false}
+        validateOnChange={false} */
+        // eslint-disable-next-line react/no-children-prop
+        children={Formulario}
+      />
     </div>
   );
 };
