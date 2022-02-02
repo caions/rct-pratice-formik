@@ -5,3 +5,12 @@
   align-items: center;
   justify-content: center;
 }
+
+.form input {
+  display: flex;
+  flex-direction: column;
+}
+
+.form span {
+  color: brown;
+}
