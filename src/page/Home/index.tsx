@@ -44,13 +44,13 @@ export const Home: React.FC = () => {
     };
   }
 
-  const Formulario = (props: IErrors) => (
+  const Formulario = ({ errors }: IErrors) => (
     <div className={styles.form}>
       <Form>
         <Field name="nome" />
-        {props.errors.nome ? <span>{props.errors.nome}</span> : ''}
+        {errors.nome ? <span>{errors.nome}</span> : ''}
         <Field name="email" />
-        {props.errors.email ? <span>{props.errors.email}</span> : ''}
+        {errors.email ? <span>{errors.email}</span> : ''}
         <br />
         <button type="submit">Submit</button>
       </Form>
